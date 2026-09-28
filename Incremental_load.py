@@ -19,4 +19,4 @@ def get_last_datetime():
     for key, value in result:
         print(key,value) 
 
-get_last_datetime()   
+get_last_datetime()

@@ -10,25 +10,25 @@ cursor = conn.cursor()
 
 
 def table_creation():
-    sql = '''Create Table stock_prices(
-    date DATE, 
+    sql = '''Create Table stock_prices( 
     "symbol" VARCHAR(10),
+    "datetime" TIMESTAMP,
     "open" DECIMAL(12,4),
     "high" DECIMAL(12,4),
     "low" DECIMAL(12,4),
     "close" DECIMAL(12,4),
     "volume" BIGINT,
-    PRIMARY KEY (symbol, date)
+    PRIMARY KEY (symbol, datetime)
     );'''
 
     cursor.execute(sql)
 
 def table_load():
-    file_path= '/Users/abdullahaljubran/Documents/Projects/Data Engineer Projects/Stocks Project/Output.csv'
+    file_path= '/Users/abdullahaljubran/Documents/Projects/Data Engineer Projects/Stocks Project/stock_prices.csv'
     with open(file_path, "r") as file:
         cursor.copy_expert(
             """
-            COPY stock_prices(date, symbol, open, high, low, close, volume)
+            COPY stock_prices(symbol ,datetime, open, high, low, close, volume)
             FROM STDIN
             WITH CSV HEADER
             """,

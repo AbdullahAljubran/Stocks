@@ -1,24 +1,57 @@
 import requests
 import csv
-response = requests.get("https://api.twelvedata.com/time_series?apikey=6224c213ec374d33b749f570c2d8222e&symbol=AAPL&interval=1min&start_date=2026-08-01T21:08:00&end_date=2026-09-27T21:09:00&format=JSON&type=stock")
 
-symbol=response["meta"]["symbol"]
-value=response["values"]
-rows=[]
-for key,value in value.items():
-    row=[]
-    row.append(symbol)
-    row.append(value["datetime"])
-    row.append(value["open"])
-    row.append(value["high"])
-    row.append(value["low"])
-    row.append(value["close"])
-    row.append(value["volume"])
-    rows.append(row)
-    
-header=["symbol","Date","Opening_value","Highest_Value","Lowest_value","Closing_Value","Volume"]  
-with open("Twelve.csv", "w", newline="", encoding="utf-8") as file:
-    writer= csv.writer(file)
-    writer.writerow(header)
-    for row in rows:
-        writer.writerow(row)
+stocks=["AAPL","MSFT","NVDA","TSLA","AMZN"]
+
+all_data = []
+
+for stock in stocks:
+
+    response = requests.get(
+        "https://api.twelvedata.com/time_series",
+        params={
+            "apikey": "6224c213ec374d33b749f570c2d8222e",
+            "symbol": stock,
+            "interval": "1h",
+            "start_date": "2026-09-01T20:37:00",
+            "end_date": "2026-09-28T20:37:00",
+        }
+    )
+
+    data = response.json()
+
+    all_data.append(data)
+
+with open("stock_prices.csv", "w", newline="") as csvfile:
+
+    writer = csv.writer(csvfile)
+
+    # Header
+    writer.writerow([
+        "symbol",
+        "datetime",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume"
+    ])
+
+    # Data
+    for data in all_data:
+
+        symbol = data["meta"]["symbol"]
+
+        for value in data["values"]:
+
+            writer.writerow([
+                symbol,
+                value["datetime"],
+                value["open"],
+                value["high"],
+                value["low"],
+                value["close"],
+                value["volume"]
+            ])
+
+print("CSV created successfully!")

@@ -1,5 +1,6 @@
 import requests
 import csv
+from config import API_KEY
 
 stocks=["AAPL","MSFT","NVDA","TSLA","AMZN"]
 
@@ -10,7 +11,7 @@ for stock in stocks:
     response = requests.get(
         "https://api.twelvedata.com/time_series",
         params={
-            "apikey": "6224c213ec374d33b749f570c2d8222e",
+            "apikey": API_KEY,
             "symbol": stock,
             "interval": "1h",
             "start_date": "2026-09-01T20:37:00",

@@ -1,3 +1,4 @@
 API_KEY= "947edb75600e42e98f8e90255984a1bf"
 config.py
 .gitignore
+PostgreSQL_Password= "2664"

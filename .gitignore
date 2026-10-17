@@ -1,2 +1,1 @@
-API_KEY=
 config.py -> it contains API_KEY & PostgreSQL_Password
